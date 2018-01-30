@@ -96,4 +96,13 @@ while ${2:[[ ${1:condition} ]]}; do
 done
 endsnippet
 
+snippet usage "usage cmd"
+
+# usage when no args [default]
+[ "$#" -eq 0 ] \
+  && echo -e "USAGE: $(basename \$0) <${1:#regex}> # ${2:#help} " \
+  && exit 1
+
+endsnippet
+
 # vim:ft=snippets:
