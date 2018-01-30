@@ -41,6 +41,21 @@ snippet include_vars
     #name: ${9}
 endsnippet
 
+snippet lineinfile
+- name: ${1:task_description}
+  lineinfile:
+    path: "{{ ${2:path} }}"
+    owner: "{{ ${3:user} }}"
+    create: ${4:no}
+    state: ${5:present}
+    mode: ${6:0644}
+    #insertbefore: ${7:BOF}
+    insertafter: ${8:EOF}
+    regexp: ${9}
+    validate: ${10:None}
+    line: ${11}
+endsnippet
+
 snippet play
 - hosts: ${1:hostgroup}
   become: ${2:yes}
