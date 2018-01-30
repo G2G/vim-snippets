@@ -52,7 +52,7 @@ snippet lineinfile
     #insertbefore: ${7:BOF}
     insertafter: ${8:EOF}
     regexp: ${9}
-    validate: ${10:None}
+    # validate: ${10:None}
     line: ${11}
 endsnippet
 
@@ -62,6 +62,18 @@ snippet play
   roles:
     - ${3}
   tasks:
+endsnippet
+
+snippet template
+- name: ${1:task_description}
+  template:
+    src: "{{ ${2:template}.j2 }}"
+    dest: "{{ ${3:path} }}"
+    owner: "{{ ${4:user} }}"
+    #group: ${5}
+    force: ${6:yes}
+    mode: ${7:0644}
+    # validate: ${8:None}
 endsnippet
 
 snippet user
