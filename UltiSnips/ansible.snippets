@@ -1,0 +1,70 @@
+snippet blockinfile
+- name: ${1:task_description}
+  blockinfile:
+    path: ${2}
+    insertafter: ${4:EOF}
+    marker: ${5:# {mark} ANSIBLE MANAGED BLOCK}
+    insertbefore: ${9:None}
+    create: ${11:no}
+    owner: ${14}
+    state: ${15:present}
+    mode: ${16:0644}
+    block: ${19:""}
+endsnippet
+
+snippet include_role
+- name: ${1:task_description}
+  include_role:
+    name: ${2}
+    #allow_duplicates: ${3:True}
+    #tasks_from: ${4:main}
+    #vars_from: ${5:main}
+    #defaults_from: ${6:main}
+    #private: ${7:None}
+endsnippet
+
+snippet include_tasks
+- name: ${1:task_description}
+  include_tasks: ${2:task_name}.yml
+endsnippet
+
+snippet include_vars
+- name: ${1:task_description}
+  include_vars:
+    #ignore_files: ${2}
+    #free-form: ${3}
+    #files_matching: ${4}
+    #depth: ${5}
+    #extensions: ${6:[u'yaml', u'yml', u'json']}
+    #file: ${7}
+    #dir: ${8}
+    #name: ${9}
+endsnippet
+
+snippet play
+- hosts: ${1:hostgroup}
+  become: ${2:yes}
+  roles:
+    - ${3}
+  tasks:
+endsnippet
+
+snippet user
+- name: USER | creates if needs
+  user:
+    name: "{{ ${1:user} }}"
+    home: "{{ ${2:home} }}"
+    uid: ${3}
+    state: ${4:present}
+    shell: ${5:/bin/bash}
+- name: USER | get user home directory
+  shell: >
+          awk -F: '/^'"{{ ${6:user} }}"':/{print \$6}' /etc/passwd
+  changed_when: false
+  register: home
+
+- name: USER | store user home as variable
+  set_fact:
+    user_home: "{{ home.stdout }}"
+endsnippet
+
