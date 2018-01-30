@@ -12,6 +12,39 @@ snippet blockinfile
     block: ${19:""}
 endsnippet
 
+snippet find
+- name: ${1:task_description}
+  find:
+    paths: ${2}
+    #file_type: ${3:file}
+    #age: ${4}
+    #contains: ${5}
+    #recurse: ${6:no}
+    #age_stamp: ${7:mtime}
+    #patterns: ${8:*}
+    #get_checksum: ${9:no}
+    #use_regex: ${10:no}
+    #follow: ${11:no}
+    #hidden: ${12:no}
+    #size: ${13}
+endsnippet
+
+snippet get_url
+- name: ${1:task_description}
+  get_url:
+    url: ${3}
+    dest: ${2}
+    #force: ${4:no}
+    #timeout: ${5:10}
+    #validate_certs: ${6:yes}
+    #sha256sum: ${9}
+    #owner: ${11}
+    #group: ${14}
+    #checksum: "{{ ${18} }}"
+    mode: ${22:0644}
+    tmp_dest: ${27:/tmp}
+endsnippet
+
 snippet include_role
 - name: ${1:task_description}
   include_role:
@@ -62,6 +95,36 @@ snippet play
   roles:
     - ${3}
   tasks:
+endsnippet
+
+snippet shell
+- name: ${1:task_description}
+  shell: ${2}
+  args:
+    #chdir: ${3}
+    executable: ${5:/bin/bash}
+    warn: ${6:no}
+  changed_when: false
+  #delegate_to: localhost
+  register: ${7:shell_result}
+
+- name: store ${8:shell_result} in variable
+  set_fact:
+    ${9:result}: "{{ ${10:shell_result}.stdout }}"
+
+endsnippet
+
+snippet stat
+- name: ${1:task_description}
+  stat:
+    path: ${2}
+    #get_checksum: ${3:yes}
+    #follow: ${4:no}
+    #checksum_algorithm: ${5:sha1}
+    #get_mime: ${6:yes}
+    #get_md5: ${7:yes}
+    #get_attributes: ${8:yes}
+  # register: file_stat
 endsnippet
 
 snippet template
