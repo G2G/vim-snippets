@@ -12,21 +12,60 @@ snippet blockinfile
     block: ${19:""}
 endsnippet
 
+snippet copy
+- name: ${1:task_description}
+  copy:
+    src: "{{ ${12}
+    dest: "{{ ${2}
+    # directory_mode: ${3}
+    # force: ${4:yes}
+    # remote_src: ${5:no}
+    # selevel: ${6:s0}
+    # decrypt: ${7:Yes}
+    # owner: "{{ ${8}
+    # follow: ${9:no}
+    # validate: ${10:None}
+    # local_follow: ${11:yes}
+    # group: "{{ ${13}
+    # unsafe_writes: ${14}
+    # seuser: ${15}
+    # serole: ${16}
+    # content: ${17}
+    # setype: ${18}
+    # mode: ${19}
+    # attributes: ${20:None}
+    # backup: ${21:no}
+endsnippet
+
+
+snippet file
+- name: ${1:task_description}
+  file:
+    path: "{{ ${2:path} }}"
+    # src: ${3}  # for link state
+    owner: "{{ ${5:user} }}"
+    group: "{{ ${6:group} }}"
+    state: ${8:file} # cannot create file
+    force: ${3:no} # for symlink
+    # recurse: ${9:no}
+    # mode: ${4:0644}
+endsnippet
+
 snippet find
 - name: ${1:task_description}
   find:
     paths: ${2}
-    #file_type: ${3:file}
-    #age: ${4}
-    #contains: ${5}
-    #recurse: ${6:no}
-    #age_stamp: ${7:mtime}
-    #patterns: ${8:*}
-    #get_checksum: ${9:no}
-    #use_regex: ${10:no}
-    #follow: ${11:no}
-    #hidden: ${12:no}
-    #size: ${13}
+    # file_type: ${3:file}
+    # age: ${4}
+    # contains: ${5}
+    # recurse: ${6:no}
+    # age_stamp: ${7:mtime}
+    # patterns: ${8:*}
+    # get_checksum: ${9:no}
+    # use_regex: ${10:no}
+    # follow: ${11:no}
+    # hidden: ${12:no}
+    # size: ${13}
 endsnippet
 
 snippet get_url
@@ -34,13 +73,13 @@ snippet get_url
   get_url:
     url: ${3}
     dest: ${2}
-    #force: ${4:no}
-    #timeout: ${5:10}
-    #validate_certs: ${6:yes}
-    #sha256sum: ${9}
-    #owner: ${11}
-    #group: ${14}
-    #checksum: "{{ ${18} }}"
+    # force: ${4:no}
+    # timeout: ${5:10}
+    # validate_certs: ${6:yes}
+    # sha256sum: ${9}
+    # owner: ${11}
+    # group: ${14}
+    # checksum: "{{ ${18} }}"
     mode: ${22:0644}
     tmp_dest: ${27:/tmp}
 endsnippet
@@ -49,11 +88,11 @@ snippet include_role
 - name: ${1:task_description}
   include_role:
     name: ${2}
-    #allow_duplicates: ${3:True}
-    #tasks_from: ${4:main}
-    #vars_from: ${5:main}
-    #defaults_from: ${6:main}
-    #private: ${7:None}
+    # allow_duplicates: ${3:True}
+    # tasks_from: ${4:main}
+    # vars_from: ${5:main}
+    # defaults_from: ${6:main}
+    # private: ${7:None}
 endsnippet
 
 snippet include_tasks
@@ -64,14 +103,14 @@ endsnippet
 snippet include_vars
 - name: ${1:task_description}
   include_vars:
-    #ignore_files: ${2}
-    #free-form: ${3}
-    #files_matching: ${4}
-    #depth: ${5}
-    #extensions: ${6:[u'yaml', u'yml', u'json']}
-    #file: ${7}
-    #dir: ${8}
-    #name: ${9}
+    # ignore_files: ${2}
+    # free-form: ${3}
+    # files_matching: ${4}
+    # depth: ${5}
+    # extensions: ${6:[u'yaml', u'yml', u'json']}
+    # file: ${7}
+    # dir: ${8}
+    # name: ${9}
 endsnippet
 
 snippet lineinfile
@@ -82,11 +121,18 @@ snippet lineinfile
     create: ${4:no}
     state: ${5:present}
     mode: ${6:0644}
-    #insertbefore: ${7:BOF}
+    # insertbefore: ${7:BOF}
     insertafter: ${8:EOF}
     regexp: ${9}
     # validate: ${10:None}
     line: ${11}
+endsnippet
+
+snippet package
+- name: ${1:task_description}
+  package:
+    name: ${2:name}
+    state: ${3:latest}
 endsnippet
 
 snippet play
@@ -97,15 +143,24 @@ snippet play
   tasks:
 endsnippet
 
+snippet service
+- name: ${1:task_description}
+  service:
+    name: ${2}
+    enabled: ${5:yes}
+    state: ${6:restarted}
+    sleep: ${7:1}
+endsnippet
+
 snippet shell
 - name: ${1:task_description}
   shell: ${2}
   args:
-    #chdir: ${3}
+    # chdir: ${3}
     executable: ${5:/bin/bash}
     warn: ${6:no}
   changed_when: false
-  #delegate_to: localhost
+  # delegate_to: localhost
   register: ${7:shell_result}
 
 - name: store ${8:shell_result} in variable
@@ -117,26 +172,61 @@ endsnippet
 snippet stat
 - name: ${1:task_description}
   stat:
-    path: ${2}
-    #get_checksum: ${3:yes}
-    #follow: ${4:no}
-    #checksum_algorithm: ${5:sha1}
-    #get_mime: ${6:yes}
-    #get_md5: ${7:yes}
-    #get_attributes: ${8:yes}
-  # register: file_stat
+    path: "{{ ${2:file} }}"
+  ignore_errors: true
+  register: ${3:file_stat}
+
+- debug: msg="{{ ${4:file_stat} }}"
+endsnippet
+
+snippet synchronize
+- name: ${1:task_description}
+  synchronize:
+    src: "{{ ${2:file} }}"
+    dest: ${3:/tmp}
+    mode: ${4:push}
+    archive: ${5:yes}
+    # delete: ${6:no}
+    compress: ${7:yes}
+    rsync_opts: ${8:"--exclude=.git"}
+    existing_only: ${9:no}
+    # dest_port: ${10:22}
+    set_remote_user: ${12:False}
+endsnippet
+
+snippet systemd
+- name: ${1:task_description}
+  systemd:
+    name: ${2}
+    state: ${3:restarted}
+    # user: no
+    daemon_reload: ${4:yes}
+    enabled: ${5:yes}
 endsnippet
 
 snippet template
 - name: ${1:task_description}
   template:
-    src: "{{ ${2:template}.j2 }}"
+    src: "{{ ${2:template} }}.j2"
     dest: "{{ ${3:path} }}"
     owner: "{{ ${4:user} }}"
-    #group: ${5}
+    group: "{{ ${5:group} }}"
     force: ${6:yes}
     mode: ${7:0644}
     # validate: ${8:None}
+endsnippet
+
+snippet unarchive
+- name: ${1:task_description}
+  unarchive:
+    src: "{{ ${2:file.tgz} }}"
+    dest: "{{ ${3:dir} }}"
+    remote_src: ${4:no}
+    owner: "{{ ${5:user} }}"
+    group: "{{ ${6:group} }}"
+    keep_newer: ${7:no}
+    # exclude: ${8}
+    # extra_opts: ${9}
 endsnippet
 
 snippet user

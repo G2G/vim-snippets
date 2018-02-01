@@ -711,4 +711,41 @@ snippet pmdoc "pocoo style module doc string" b
 $0
 endsnippet
 
+############
+# MOLECULE #
+############
+
+snippet test_http_code
+def test_${1:service_name}_http_code_${2:200}(host):
+  test_http_code = 'curl -SsIk https://127.0.0.1:1311 | grep "HTTP/1.1 ${3:200} OK"'
+  assert host.command(test).rc
+
+endsnippet
+
+snippet test_molecule
+import os
+
+import testinfra.utils.ansible_runner
+
+testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
+
+endsnippet
+
+snippet test_port_listening
+
+def test_${1:service_name}_listening_port_${2:80}(host):
+    assert host.socket("tcp://0.0.0.0:${3:80}").is_listening
+
+endsnippet
+
+snippet test_service
+
+def test_${1:service_name}_is_running_and_enabled(host):
+    service= host.service("${3:service_name}")
+    assert service.is_running
+    assert service.is_enabled
+
+endsnippet
+
 # vim:ft=snippets:
