@@ -113,6 +113,20 @@ snippet include_vars
     # name: ${9}
 endsnippet
 
+snippet ini_file
+- name: ${1:task_description}
+  ini_file:
+    path: "{{ ${2:None} }}"
+    section: ${3:None}
+    option: ${4:option}
+    value: "{{ ${5:value} }}"
+    state: "{{ ${6:present}
+    mode: ${7:0600}
+    #owner: "{{ ${8:user} }}"
+    #group: "{{ ${9:group} }}"
+    #create: ${10:yes}
+endsnippet
+
 snippet lineinfile
 - name: ${1:task_description}
   lineinfile:
