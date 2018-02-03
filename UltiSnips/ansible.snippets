@@ -262,3 +262,13 @@ snippet user
     user_home: "{{ home.stdout }}"
 endsnippet
 
+snippet vars_os
+- name: CFG | load specific OS vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution|lower }}.yml"
+    - "{{ ansible_os_family|lower }}.yml"
+    - "defaults.yml"
+endsnippet
+
