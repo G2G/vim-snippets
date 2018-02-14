@@ -739,6 +739,14 @@ def test_${1:service_name}_listening_port_${2:80}(host):
 
 endsnippet
 
+snippet test_package
+
+def test_${1:package_name}_is_installed(host):
+    package= host.Package("${3:package_name}")
+    assert package.is_installed
+
+endsnippet
+
 snippet test_service
 
 def test_${1:service_name}_is_running_and_enabled(host):

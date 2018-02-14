@@ -12,31 +12,31 @@ snippet blockinfile
     block: ${19:""}
 endsnippet
 
+snippet command
+- name: ${1:task_description}
+  command: ${2}
+    #chdir: ${3}
+    #warn: ${4:yes}
+    #creates: ${5}
+    #removes: ${6}
+    #stdin: ${7}
+endsnippet
+
 snippet copy
 - name: ${1:task_description}
   copy:
-    src: "{{ ${12}
-    dest: "{{ ${2}
-    # directory_mode: ${3}
+    src: "{{ ${2:src_file} }}"
+    dest: "{{ ${3:dst_file} }}"
     # force: ${4:yes}
+    # mode: ${6:644}
+    # owner: "{{ ${7:user} }}"
+    # group: "{{ ${8:group} }}"
+    # content: ${9:|}
+    # backup: ${10:no}
     # remote_src: ${5:no}
-    # selevel: ${6:s0}
-    # decrypt: ${7:Yes}
-    # owner: "{{ ${8}
-    # follow: ${9:no}
-    # validate: ${10:None}
-    # local_follow: ${11:yes}
-    # group: "{{ ${13}
-    # unsafe_writes: ${14}
-    # seuser: ${15}
-    # serole: ${16}
-    # content: ${17}
-    # setype: ${18}
-    # mode: ${19}
-    # attributes: ${20:None}
-    # backup: ${21:no}
+    # validate: ${11:None}
+    # directory_mode: ${12}
 endsnippet
-
 
 snippet file
 - name: ${1:task_description}
@@ -142,11 +142,36 @@ snippet lineinfile
     line: ${11}
 endsnippet
 
+snippet molecule_platform
+platforms:
+  - name: centos6
+    image: registry.gitlab.com/role_unit/role_unit_containers:centos6
+    privileged: True
+  - name: centos7
+    image: registry.gitlab.com/role_unit/role_unit_containers:centos7
+    privileged: True
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/lib/systemd/systemd"
+  - name: debian8
+    image: registry.gitlab.com/role_unit/role_unit_containers:debian8
+    privileged: True
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/lib/systemd/systemd"
+  - name: debian9
+    image: registry.gitlab.com/role_unit/role_unit_containers:debian9
+    privileged: True
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: "/lib/systemd/systemd"
+endsnippet
+
 snippet package
 - name: ${1:task_description}
   package:
     name: ${2:name}
-    state: ${3:latest}
+    state: ${3:present}
 endsnippet
 
 snippet play
