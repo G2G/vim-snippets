@@ -84,6 +84,15 @@ snippet get_url
     tmp_dest: ${27:/tmp}
 endsnippet
 
+snippet git
+- name: ${1:task_description}
+  get_url:
+    repo: "{{ ${2:repo_remote} }}"
+    dest: "{{ ${3:repo_local} }}"
+    update: ${4:no}
+  # delegate_to: localhost
+endsnippet
+
 snippet include_role
 - name: ${1:task_description}
   include_role:
