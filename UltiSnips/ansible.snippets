@@ -158,6 +158,14 @@ snippet lineinfile
     line: ${11}
 endsnippet
 
+snippet list
+  lineinfile:
+    line: "{{ ${1:line_item} }}"
+  with_items: "{{ ${2:line_list} }}"
+  loop_control:
+    loop_var: ${3:line_item}
+endsnippet
+
 snippet molecule_platform
 platforms:
   - name: centos6
