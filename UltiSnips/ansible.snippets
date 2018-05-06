@@ -38,6 +38,13 @@ snippet copy
     # directory_mode: ${12}
 endsnippet
 
+snippet dict
+    name: "{{ ${1:dict_item.key} }}"
+  with_dict: "{{ ${2:dict_var} }}"
+  loop_control:
+    loop_var: ${3:dict_item}
+endsnippet
+
 snippet file
 - name: ${1:task_description}
   file:
