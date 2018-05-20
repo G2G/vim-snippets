@@ -38,6 +38,15 @@ snippet copy
     # directory_mode: ${12}
 endsnippet
 
+snippet debug
+  ignore_errors: yes
+  register: var_debug
+
+- debug:
+    var:  var_debug
+
+endsnippet
+
 snippet dict
     name: "{{ ${1:dict_item.key} }}"
   with_dict: "{{ ${2:dict_var} }}"
