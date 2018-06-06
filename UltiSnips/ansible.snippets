@@ -57,14 +57,14 @@ endsnippet
 snippet dir
 - name: CONF | check that directory exists
   stat:
-    path: "{{ dir }}"
+    path: "${2: {{ dir }} }"
   register: _dir
 
 - name: CONF | create directory if not exists
   file:
-    path: "{{ dir }}
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    path: "${3: {{ dir }} }"
+    owner: "${4: {{ user }} }"
+    group: "${5: {{ group }} }"
     state: directory
     mode: 0755
   when: "_dir.stat.exists == false"
