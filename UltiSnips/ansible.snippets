@@ -54,6 +54,22 @@ snippet dict
     loop_var: ${3:dict_item}
 endsnippet
 
+snippet dir
+- name: CONF | check that directory exists
+  stat:
+    path: "{{ dir }}"
+  register: _dir
+
+- name: CONF | create directory if not exists
+  file:
+    path: "{{ dir }}
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    state: directory
+    mode: 0755
+  when: "_dir.stat.exists == false"
+endsnippet
+
 snippet file
 - name: ${1:task_description}
   file:
