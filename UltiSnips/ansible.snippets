@@ -378,6 +378,7 @@ snippet user
     group: "${4:{{ item.group }}}"
   with_items:
     - { login: '${5:{{ item.login }}}', group: '${6:{{ item.group }}}' }
+  when: user_exists.stdout == "false"
 
 - name: USER | get user home directory
   shell: >
