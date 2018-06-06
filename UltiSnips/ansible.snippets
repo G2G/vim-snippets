@@ -125,6 +125,19 @@ snippet git
   # delegate_to: localhost
 endsnippet
 
+snippet group
+# Create groups
+- name: check if {{ group }} group exists
+  shell: getent group {{ group }} >/dev/null 2>&1 && echo "true" || echo "false"
+  register: group_exists
+  changed_when: no
+
+- name: create {{ group }} group
+  Group: name={{ group }}
+  when: group_exists.stdout == "false"
+endsnippet
+
+
 snippet include_role
 - name: ${1:task_description}
   include_role:
@@ -371,3 +384,17 @@ snippet os_tasks
     - "defaults.yml"
 endsnippet
 
+snippet user
+# Create or update users
+- name: check if ${1:{{ item.group }}} group exists
+  shell: getent passwd ${2:{{ item.group }}} >/dev/null 2>&1 && echo "true" || echo "false"
+  register: user_exists
+  changed_when: no
+
+- name: create users
+  user:
+    name: "${3:{{ item.login }}}"
+    group: "${4:{{ item.group }}}"
+  with_items:
+    - { login: '${5:{{ item.login }}}', group: '${6:{{ item.group }}}' }
+endsnippet
