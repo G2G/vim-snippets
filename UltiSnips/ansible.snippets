@@ -345,25 +345,6 @@ snippet unarchive
     # extra_opts: ${9}
 endsnippet
 
-snippet user
-- name: USER | creates if needs
-  user:
-    name: "{{ ${1:user} }}"
-    home: "{{ ${2:home} }}"
-    uid: ${3}
-    state: ${4:present}
-    shell: ${5:/bin/bash}
-- name: USER | get user home directory
-  shell: >
-          awk -F: '/^'"{{ ${6:user} }}"':/{print \$6}' /etc/passwd
-  changed_when: false
-  register: home
-
-- name: USER | store user home as variable
-  set_fact:
-    user_home: "{{ home.stdout }}"
-endsnippet
-
 snippet os_vars
 - name: CFG | load specific OS vars
   include_vars: "{{ item }}"
@@ -397,4 +378,15 @@ snippet user
     group: "${4:{{ item.group }}}"
   with_items:
     - { login: '${5:{{ item.login }}}', group: '${6:{{ item.group }}}' }
+
+- name: USER | get user home directory
+  shell: >
+          awk -F: '/^'"${7:{{ item.login }}}"':/{print \$6}' /etc/passwd
+  changed_when: false
+  register: home
+
+- name: USER | store user home as variable
+  set_fact:
+    user_home: "{{ home.stdout }}"
+
 endsnippet
